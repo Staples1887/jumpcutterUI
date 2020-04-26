@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument("--duration-threshold", "-d", 
                         help="Minimum number of required seconds in silence to cut it out", 
                         type=float,
-                        default=0.2)
+                        default=0.5)
     parser.add_argument("--failure-tolerance-ratio", "-f", 
                         help="Consequent x values are taken into account to find silence parts of the signal.\
                               Failure tolerance ratio leaves room for some error. For example if failure threshold\
@@ -42,13 +42,13 @@ def parse_args():
                               between 10th and 20th second of the video, then instead of cutting it out directly,\
                               we cut out  (10+space_on_edges)th and (20-space_on_edges)th seconds of the clip", 
                         type=float,
-                        default=0.1)
+                        default=0.2)
     parser.add_argument("--silence-part-speed", "-x",
                         help="If this parameter is set, it will speed up the silence parts x times instead of cutting them out",
                         type=int,
                         required=False)
     parser.add_argument("--min-loud-part-duration", "-l",
-                        help="If this parameter is set, load parts of the clip that are shorter than this parameter\
+                        help="If this parameter is set, loud parts of the clip that are shorter than this parameter\
                               (in seconds) will also be cutted",
                         type=int,
                         required=False,
