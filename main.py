@@ -42,7 +42,7 @@ def parse_args():
                               between 10th and 20th second of the video, then instead of cutting it out directly,\
                               we cut out  (10+space_on_edges)th and (20-space_on_edges)th seconds of the clip", 
                         type=float,
-                        default=0.2)
+                        default=0.1)
     parser.add_argument("--silence-part-speed", "-x",
                         help="If this parameter is set, it will speed up the silence parts x times instead of cutting them out",
                         type=int,
