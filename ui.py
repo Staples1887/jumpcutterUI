@@ -4,7 +4,9 @@ from clip import Clip
 import configparser as cp
 import wx
 import main
-from subprocess import Popen
+from subprocess import PIPE, Popen
+import asyncio
+
 cfgFile = open('config.cfg', 'r')
 config = cp.ConfigParser()
 config.read_file(cfgFile)
@@ -146,21 +148,8 @@ class JumpCutCfgPanel(wx.Panel):
         process = subprocess.Popen(["python", "-u", "main.py", "--input", str(self.inputPathFilePickerCtrl.GetPath()),
                         "--output", str(self.outputPathFilePickerCtrl.GetPath()),
                         "--magnitude-threshold-ratio", str(self.magnitudeThresholdRatioSpinCtrl.GetValue())
-         ], stdout=subprocess.PIPE)
-        self.processCheckup(process)
-        '''while True:
-            output = process.stdout.readline()
-            if output == '' and process.poll() is not None:
-                self.__log('Breack')
-                break
-            if output:
-                self.__log( str(output.strip()) )
-        '''
-        self.__log('Video Done!')
-        self.processButton.Enable();
-
-    # Helper method(s):
-    async def processCheckup(self, process):
+         ], stdout=PIPE)
+        
         while True:
             output = process.stdout.readline()
             if output == '' and process.poll() is not None:
@@ -168,6 +157,12 @@ class JumpCutCfgPanel(wx.Panel):
                 break
             if output:
                 self.__log( str(output.strip()) )
+            asyncio.sleep(5)
+        
+        self.__log('Video Done!')
+        self.processButton.Enable();
+
+    # Helper method(s):
 
     def __log(self, message):
         ''' Private method to append a string to the logger text
